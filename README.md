@@ -1,1 +1,3 @@
-# webpack-eslint-prettier
+# Battleship
+
+Battleship game project
