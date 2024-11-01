@@ -1,3 +1,4 @@
 import './style.css';
+import { Ship } from './ship.js';
 
-console.log('Webpack template with ESLint and Prettier');
+console.log('Battleship');
