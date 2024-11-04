@@ -1,5 +1,3 @@
-import { Ship } from './ship.js';
-
 export class Gameboard {
     constructor() {
         this.arr = Array.from({length: 10}, () => Array(10).fill(null));
@@ -8,8 +6,7 @@ export class Gameboard {
     putShip(ship, x, y, orientation = 'v') {
         if (orientation === 'v') {
             for (let i = 0; i < ship.length; i++) {
-                // need to set flag to check all spaces before adding ship
-                if (!this.checkPlace(x, y + i)) return false;
+                if (!this.checkPlace(y + i, x)) return false;
             }
             for (let i = 0; i < ship.length; i++) {
                 this.arr[y + i][x] = ship;
@@ -18,11 +15,10 @@ export class Gameboard {
 
         if (orientation === 'h') {
             for (let i = 0; i < ship.length; i++) {
-                // need to set flag to check all spaces before adding ship
-                if (!this.checkPlace(x + i, y)) return false;
+                if (!this.checkPlace(y, x + i)) return false;
             }
             for (let i = 0; i < ship.length; i++) {
-                this.arr[x][y + i] = ship;
+                this.arr[y][x + i] = ship;
             }
         }
 
@@ -31,14 +27,14 @@ export class Gameboard {
 
     checkPlace(x, y) {
         if (this.arr[y][x]) return false;
-        // check padding (cannot place adjacent to another ship)
-        const padding = [];
-        if (y != 0) {
+        if (x < 0 || y < 0 || x > 9 || y > 9) return false;
+        const padding = []; 
+        if (y >= 0) {
             for (let offset = -1; offset < 2; offset++) {
                 if (x + offset >= 0 && x + offset <= 9) padding.push(this.arr[y - 1][x + offset]);
             }
         }
-        if (y != 9) {
+        if (y <= 9) {
             for (let offset = -1; offset < 2; offset++) {
                 if (x + offset >= 0 && x + offset <= 9) padding.push(this.arr[y + 1][x + offset]);
             }
@@ -47,5 +43,16 @@ export class Gameboard {
         if (x != 9) padding.push(this.arr[y][x + 1]);
 
         return padding.every((space) => !space);
+    }
+
+    receiveAttack(x, y) {
+        if (!this.arr[y][x]) return { result: false, coord: [x, y], sunk: false };
+        const ship = this.arr[y][x];
+        ship.hit();
+        return {
+            result: true,
+            coord: [x, y],
+            sunk: ship.sunk
+        };
     }
 }
