@@ -103,8 +103,23 @@ describe('Gameboard class', () => {
     });
 
     test('default layout creation', () => {
+        gameboard.loadDefault();
+        const board = gameboard.arr;
+        expect(board[0][5].hp).toBe(3);
+        expect(board[1][7].hp).toBe(2);
+        expect(board[2][1].hp).toBe(4);
+        expect(board[4][3].hp).toBe(5);
+        expect(board[6][7].hp).toBe(3);
+
+        expect(board[0][0]).toBe(null);
+        expect(board[1][8]).toBe(null);
+        expect(board[4][4]).toBe(null);
+    });
+});
+
+describe('Player class', () => {
+    test('is created with default layout board', () => {
         const p1 = new Player();
-        p1.board.loadDefault();
         const board = p1.board.arr;
         expect(board[0][5].hp).toBe(3);
         expect(board[1][7].hp).toBe(2);
