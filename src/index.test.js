@@ -1,21 +1,22 @@
 import { Ship } from './ship.js';
 import { Gameboard } from './gameboard.js';
+import { Player } from './player.js';
 
 describe('Ship class', () => {
-    it('has length, hit point(hp), and sunk properties', () => {
+    test('has length, hit point(hp), and sunk properties', () => {
         const ship = new Ship(5);
         expect(ship.length).toBe(5);
         expect(ship.hp).toBe(5);
         expect(ship.sunk).toBe(false);
     });
     
-    it('hit function hits once', () => {
+    test('hit function hits once', () => {
         const ship = new Ship(5);
         ship.hit();
         expect(ship.hp).toBe(4);
     });
     
-    it('isSunk() returns true when sunk', () => {
+    test('isSunk() returns true when sunk', () => {
         const ship = new Ship(2);
         ship.hit();
         ship.hit();
@@ -30,29 +31,29 @@ describe('Gameboard class', () => {
         gameboard = new Gameboard();
     });
 
-    it('returns true after successful placement', () => {
+    test('returns true after successful placement', () => {
         const ship = new Ship(3);
         const result = gameboard.putShip(ship, 1, 1, 'v');
         expect(result).toBe(true);
     });
 
-    it('putShip(x,y) works vertically', () => {
+    test('putShip(x,y) works vertically', () => {
         const ship = new Ship(3);
-        gameboard.putShip(ship, 1, 1, 'v');
-        expect(gameboard.arr[1][1]).toBe(ship);
+        gameboard.putShip(ship, 0, 0, 'v');
+        expect(gameboard.arr[0][0]).toBe(ship);
+        expect(gameboard.arr[1][0]).toBe(ship);
+        expect(gameboard.arr[2][0]).toBe(ship);
+    });
+
+    test('putShip(x,y) works vertically 2', () => {
+        const ship = new Ship(4);
+        gameboard.putShip(ship, 1, 2, 'v');
         expect(gameboard.arr[2][1]).toBe(ship);
         expect(gameboard.arr[3][1]).toBe(ship);
+        expect(gameboard.arr[4][1]).toBe(ship);
     });
 
-    it('putShip(x,y) works vertically 2', () => {
-        const ship = new Ship(3);
-        gameboard.putShip(ship, 2, 5, 'v');
-        expect(gameboard.arr[5][2]).toBe(ship);
-        expect(gameboard.arr[6][2]).toBe(ship);
-        expect(gameboard.arr[7][2]).toBe(ship);
-    });
-
-    it('returns false after placement fail', () => {
+    test('returns false after placement fail', () => {
         const ship = new Ship(3);
         const ship2 = new Ship(3);
         gameboard.putShip(ship, 1, 1);
@@ -60,7 +61,7 @@ describe('Gameboard class', () => {
         expect(result2).toBe(false);
     });
 
-    it('placeShip(x,y) works horizontally', () => {
+    test('placeShip(x,y) works horizontally', () => {
         const ship = new Ship(3);
         gameboard.putShip(ship, 1, 1, 'h');
         expect(gameboard.arr[1][1]).toBe(ship);
@@ -68,7 +69,7 @@ describe('Gameboard class', () => {
         expect(gameboard.arr[1][3]).toBe(ship);
     });
 
-    it('placeShip(x,y) works horizontally 2', () => {
+    test('placeShip(x,y) works horizontally 2', () => {
         const ship = new Ship(3);
         gameboard.putShip(ship, 2, 5, 'h');
         expect(gameboard.arr[5][2]).toBe(ship);
@@ -76,7 +77,7 @@ describe('Gameboard class', () => {
         expect(gameboard.arr[5][4]).toBe(ship);
     });
 
-    it ('receiveAttack works when hit', () => {
+    test ('receiveAttack works when hit', () => {
         const ship = new Ship(5);
         gameboard.putShip(ship, 1, 1);
         const { result, coord, sunk } = gameboard.receiveAttack(1, 2);
@@ -85,7 +86,7 @@ describe('Gameboard class', () => {
         expect(sunk).toBe(false);
     });
 
-    it ('all parts of the ship receives damage', () => {
+    test('all parts of the ship receives damage', () => {
         const ship = new Ship(5);
         gameboard.putShip(ship, 1, 1);
         const { result, coord, sunk } = gameboard.receiveAttack(1, 1);
@@ -99,5 +100,16 @@ describe('Gameboard class', () => {
         expect(shipHP3).toBe(4);
         expect(shipHP4).toBe(4);
         expect(shipHP5).toBe(4);
+    });
+
+    test('default layout creation', () => {
+        const p1 = new Player();
+        p1.board.loadDefault();
+        const board = p1.board.arr;
+        expect(board[0][5].hp).toBe(3);
+        expect(board[1][7].hp).toBe(2);
+        expect(board[2][1].hp).toBe(4);
+        expect(board[4][3].hp).toBe(5);
+        expect(board[6][7].hp).toBe(3);
     });
 });

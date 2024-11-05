@@ -1,3 +1,5 @@
+import { Ship } from "./ship.js";
+
 export class Gameboard {
     constructor() {
         this.arr = Array.from({length: 10}, () => Array(10).fill(null));
@@ -6,7 +8,7 @@ export class Gameboard {
     putShip(ship, x, y, orientation = 'v') {
         if (orientation === 'v') {
             for (let i = 0; i < ship.length; i++) {
-                if (!this.checkPlace(y + i, x)) return false;
+                if (!this.checkPlace(x, y + i,)) return false;
             }
             for (let i = 0; i < ship.length; i++) {
                 this.arr[y + i][x] = ship;
@@ -15,7 +17,7 @@ export class Gameboard {
 
         if (orientation === 'h') {
             for (let i = 0; i < ship.length; i++) {
-                if (!this.checkPlace(y, x + i)) return false;
+                if (!this.checkPlace(x + i, y)) return false;
             }
             for (let i = 0; i < ship.length; i++) {
                 this.arr[y][x + i] = ship;
@@ -29,12 +31,12 @@ export class Gameboard {
         if (this.arr[y][x]) return false;
         if (x < 0 || y < 0 || x > 9 || y > 9) return false;
         const padding = []; 
-        if (y >= 0) {
+        if (y > 0) {
             for (let offset = -1; offset < 2; offset++) {
                 if (x + offset >= 0 && x + offset <= 9) padding.push(this.arr[y - 1][x + offset]);
             }
         }
-        if (y <= 9) {
+        if (y < 9) {
             for (let offset = -1; offset < 2; offset++) {
                 if (x + offset >= 0 && x + offset <= 9) padding.push(this.arr[y + 1][x + offset]);
             }
@@ -54,5 +56,18 @@ export class Gameboard {
             coord: [x, y],
             sunk: ship.sunk
         };
+    }
+
+    loadDefault() {
+        const carrier = new Ship(5);
+        const battleship = new Ship(4);
+        const cruiser = new Ship(3);
+        const submarine = new Ship(3);
+        const destroyer = new Ship(2);
+        this.putShip(cruiser, 5, 0);
+        this.putShip(destroyer, 7, 1);
+        this.putShip(battleship, 1, 2);
+        this.putShip(carrier, 3, 4);
+        this.putShip(submarine, 6, 6, 'h');
     }
 }
