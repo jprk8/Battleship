@@ -1,3 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
 body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background-color: grey;
+  font-family: monospace;
+  font-size: 16px;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 46px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.menu {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  gap: 200px;
+}
+
+.player-heading,
+.enemy-heading {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.player-board,
+.enemy-board {
+  display: grid;
   background-color: black;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 1px;
+  border: 1px solid black;
+}
+
+.square {
+  width: 40px;
+  height: 40px;
+  background-color: #ddd;
 }
