@@ -80,9 +80,8 @@ describe('Gameboard class', () => {
     test ('receiveAttack works when hit', () => {
         const ship = new Ship(5);
         gameboard.putShip(ship, 1, 1);
-        const { result, coord, sunk } = gameboard.receiveAttack(1, 2);
+        const { result, sunk } = gameboard.receiveAttack(1, 2);
         expect(result).toBe(true);
-        expect(coord).toEqual([1, 2]);
         expect(sunk).toBe(false);
     });
 
@@ -90,12 +89,10 @@ describe('Gameboard class', () => {
         const ship = new Ship(5);
         gameboard.putShip(ship, 1, 1);
         const { result, coord, sunk } = gameboard.receiveAttack(1, 1);
-        const shipHP1 = gameboard.arr[1][1].hp;
         const shipHP2 = gameboard.arr[2][1].hp;
         const shipHP3 = gameboard.arr[3][1].hp;
         const shipHP4 = gameboard.arr[4][1].hp;
         const shipHP5 = gameboard.arr[5][1].hp;
-        expect(shipHP1).toBe(4);
         expect(shipHP2).toBe(4);
         expect(shipHP3).toBe(4);
         expect(shipHP4).toBe(4);

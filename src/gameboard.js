@@ -43,17 +43,19 @@ export class Gameboard {
         }
         if (x != 0) padding.push(this.arr[y][x - 1]);
         if (x != 9) padding.push(this.arr[y][x + 1]);
-
         return padding.every((space) => !space);
     }
 
     receiveAttack(x, y) {
-        if (!this.arr[y][x]) return { result: false, coord: [x, y], sunk: false };
+        if (!this.arr[y][x]) {
+            this.arr[y][x] = 'miss';
+            return { result: false, coord: [x, y], sunk: false };
+        }
         const ship = this.arr[y][x];
         ship.hit();
+        this.arr[y][x] = 'hit';
         return {
             result: true,
-            coord: [x, y],
             sunk: ship.sunk
         };
     }
