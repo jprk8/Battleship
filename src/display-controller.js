@@ -1,6 +1,6 @@
 import { Ship } from './ship.js';
 
-export { showBoard, updateSquare };
+export { showBoard, updateSquare, updateShipCount, announceWinner };
 
 function showBoard(player, enemy = false) {
     let side = document.querySelector('.player-board');
@@ -12,6 +12,10 @@ function showBoard(player, enemy = false) {
             side.appendChild(square);
         }
     }
+
+    let shipCount = document.querySelector('.player-ship-count');
+    if (enemy) shipCount = document.querySelector('.enemy-ship-count');
+    shipCount.textContent = `Ship Count: ${player.board.life}`;
 }
 
 function makeSquare(player, x, y, enemy = false) {
@@ -45,4 +49,15 @@ function updateSquare(player, x, y, enemy = false) {
         square.className = 'miss-square';
         square.textContent = '+';
     }
+}
+
+function updateShipCount(player, enemy = false) {
+    let shipCount = document.querySelector('.player-ship-count');
+    if (enemy) shipCount = document.querySelector('.enemy-ship-count');
+    shipCount.textContent = `Ship Count: ${player.board.life}`;
+}
+
+function announceWinner(player) {
+    const result = document.querySelector('.game-result');
+    result.textContent = `${player.name} win!`;
 }

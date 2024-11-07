@@ -112,6 +112,15 @@ describe('Gameboard class', () => {
         expect(board[1][8]).toBe(null);
         expect(board[4][4]).toBe(null);
     });
+
+    test('reports defeated status', () => {
+        const ship = new Ship(2);
+        gameboard.putShip(ship, 0, 0);
+        gameboard.receiveAttack(0, 0);
+        expect(gameboard.defeat).toBe(false);
+        gameboard.receiveAttack(0, 1);
+        expect(gameboard.defeat).toBe(true);
+    });
 });
 
 describe('Player class', () => {

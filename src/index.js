@@ -1,13 +1,14 @@
 import './style.css';
-import { Ship } from './ship.js';
-import { Gameboard } from './gameboard.js';
+//import { Ship } from './ship.js';
+//import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
-import { showBoard, updateSquare } from './display-controller.js';
+import { showBoard, updateSquare, updateShipCount, announceWinner } from './display-controller.js';
 
 console.log('Battleship');
 
-const player = new Player();
-const enemy = new Player();
+const player = new Player('Human');
+const enemy = new Player('Computer');
+let gameover = false;
 
 showBoard(player);
 showBoard(enemy, true);
@@ -22,11 +23,20 @@ function loadHitbox() {
         if (square.classList.contains('enemy-square')) {
             const x = square.getAttribute('x');
             const y = square.getAttribute('y');
-            enemy.board.receiveAttack(x, y);
+            const { result, sunk } = enemy.board.receiveAttack(x, y);
             updateSquare(enemy, x, y, true);
-            disableBoard();
-            cpuPlay();
-            enableBoard();
+            if (sunk) updateShipCount(enemy, true);
+            if (enemy.board.life === 0) {
+                // endgame and announce winner
+                disableBoard();
+                announceWinner(player);
+            }
+            // computer plays after a miss
+            if (!result) {
+                disableBoard();
+                cpuPlay();
+                enableBoard();
+            }
         }
     });
 }

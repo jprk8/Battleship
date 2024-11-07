@@ -3,6 +3,8 @@ import { Ship } from "./ship.js";
 export class Gameboard {
     constructor() {
         this.arr = Array.from({length: 10}, () => Array(10).fill(null));
+        this.life = 0;
+        this.defeat = false;
     }
 
     putShip(ship, x, y, orientation = 'v') {
@@ -24,6 +26,7 @@ export class Gameboard {
             }
         }
 
+        this.life++;
         return true;
     }
 
@@ -53,6 +56,8 @@ export class Gameboard {
         }
         const ship = this.arr[y][x];
         ship.hit();
+        if (ship.isSunk()) this.life--;
+        if (this.life === 0) this.defeat = true;
         this.arr[y][x] = 'hit';
         return {
             result: true,
