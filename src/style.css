@@ -81,6 +81,11 @@ h1, h2, h3, h4, h5, h6 {
 .miss-square {
   width: 40px;
   height: 40px;
+  font-size: 24px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-family: Nunito;
 }
 
 .square,
@@ -97,8 +102,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hit-square {
-  background-color: pink;
-  color: red;
+  background-color: maroon;
+  color: yellow;
 }
 
 .miss-square {

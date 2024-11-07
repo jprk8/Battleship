@@ -1,6 +1,6 @@
 import { Ship } from './ship.js';
 
-export { showBoard };
+export { showBoard, updateSquare };
 
 function showBoard(player, enemy = false) {
     let side = document.querySelector('.player-board');
@@ -24,7 +24,7 @@ function makeSquare(player, x, y, enemy = false) {
         square.className = 'hit-square';
         square.textContent = 'X';
     } else if (content === 'miss') {
-        square.clasName = 'miss-square';
+        square.className = 'miss-square';
         square.textContent = '+';
     } else if (content instanceof Ship && !enemy) {
         square.style.backgroundColor = 'navy';
@@ -33,6 +33,14 @@ function makeSquare(player, x, y, enemy = false) {
     return square;
 }
 
-function updateBoard(player, x, y) {
-
+function updateSquare(player, x, y) {
+    const square = document.querySelector(`.enemy-square[x='${x}'][y='${y}']`)
+    const content = player.board.arr[y][x];
+    if (content === 'hit') {
+        square.className = 'hit-square';
+        square.textContent = 'X';
+    } else if (content === 'miss') {
+        square.className = 'miss-square';
+        square.textContent = '+';
+    }
 }
