@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .enemy-square:hover {
-  background-color: #bbb;
+  background-color: #aaa;
 }
 
 .hit-square {
@@ -107,5 +107,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .miss-square {
-  background-color: darkgrey;
+  background-color: #aaa;
+}
+
+.disable {
+  pointer-events: none;
 }

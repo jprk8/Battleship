@@ -49,7 +49,7 @@ export class Gameboard {
     receiveAttack(x, y) {
         if (!this.arr[y][x]) {
             this.arr[y][x] = 'miss';
-            return { result: false, coord: [x, y], sunk: false };
+            return { result: false, sunk: false };
         }
         const ship = this.arr[y][x];
         ship.hit();
