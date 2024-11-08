@@ -66,7 +66,6 @@ function loadHitbox() {
       updateSquare(enemy, x, y, true);
       if (sunk) updateShipCount(enemy, true);
       if (enemy.board.life === 0) {
-        // end game and announce winner
         disableBoard();
         announceWinner(player);
         return;
@@ -110,24 +109,44 @@ async function cpuPlay() {
   // use this flag to improve cpu play
   let hitFlag = false;
   while (!attackDone) {
+    console.log(`cpu attack: ${x}, ${y}`);
     if (board[y][x] != 'miss' && board[y][x] != 'hit') {
       if (board[y][x] instanceof Ship) {
         player.board.receiveAttack(x, y);
         await delay(500);
         updateSquare(player, x, y, false);
+        hitFlag = true;
       } else {
         player.board.receiveAttack(x, y);
         await delay(500);
         updateSquare(player, x, y, false);
         return true;
       }
+    }
+    if (hitFlag) {
+      // try adjacent square if hit
+      const top = board[y - 1][x];
+      const bottom = board[y + 1][x];
+      const right = board[y][x + 1];
+      const left = board[y][x - 1];
+      if (top != 'hit' && top != 'miss' && y > 0) {
+        y--;
+      } else if (bottom != 'hit' && bottom != 'miss' && y < 9) {
+        y++;
+      } else if (right != 'hit' && right != 'miss' && x < 9) {
+        x++;
+      } else if (left != 'hit' && left != 'miss' && x > 0) {
+        x--;
+      }
     } else {
       x = Math.floor(Math.random() * 9);
       y = Math.floor(Math.random() * 9);
     }
+    hitFlag = false;
+
   }
 
-  return new Promise((resolve) => resolve());
+  return new Promise.resolve();
 }
 
 function delay(ms) {

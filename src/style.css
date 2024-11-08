@@ -136,7 +136,7 @@ button.reset {
 }
 
 .enemy-square:hover {
-  background-color: #aaa;
+  background-color: white;
 }
 
 .hit-square {

@@ -59,6 +59,7 @@ export class Gameboard {
             this.arr[y][x] = 'miss';
             return { result: false, sunk: false };
         }
+        
         const ship = this.arr[y][x];
         ship.hit();
         if (ship.isSunk()) this.life--;
