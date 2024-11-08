@@ -6,24 +6,30 @@
     <title>Battleship</title>
   </head>
   <body>
-    <div class='title'>Battleship</div>
-    <div class='status'>Press Start to begin</div>
-    <div class='menu'>
-      <button class='start'>Start</button>
-      <button class='reset' style='display: none'>Reset</button>
+    <div class="title">Battleship</div>
+    <div class="status">Press Start to begin</div>
+    <div class="menu">
+      <button class="start">Start</button>
+      <button class="reset" style="display: none">Reset</button>
     </div>
-    <div class='game-result'>Ready your fleet</div>
-    <div class='game-container'>
-      <div class='player-side'>
-        <div class='player-heading'>Your Board</div>
-        <div class='player-ship-count'></div>
-        <div class='player-board'></div>
-        <button class='randomize'>Randomize</button>
+    <div class="game-result">Ready your fleet</div>
+    <div class="game-container">
+      <div class="player-side">
+        <div class="player-heading">Your Board</div>
+        <div class="board-status">
+          <div class="player-ship-count"></div>
+          <div class="player-sunk">Ship Sunk!</div>
+        </div>
+        <div class="player-board"></div>
+        <button class="randomize">Randomize</button>
       </div>
-      <div class='enemy-side'>
-        <div class='enemy-heading'>Enemy Board</div>
-        <div class='enemy-ship-count'></div>
-        <div class='enemy-board'></div>
+      <div class="enemy-side">
+        <div class="enemy-heading">Enemy Board</div>
+        <div class="board-status">
+          <div class="enemy-ship-count"></div>
+          <div class="enemy-sunk">Ship Sunk!</div>
+        </div>
+        <div class="enemy-board"></div>
       </div>
     </div>
   </body>

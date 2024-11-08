@@ -1,6 +1,5 @@
 import './style.css';
 import { Ship } from './ship.js';
-//import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import {
   showBoard,
@@ -26,14 +25,14 @@ const reset = document.querySelector('.reset');
 start.addEventListener('click', () => {
   loadHitbox();
   status.textContent = '';
-  gameResult.textContent = 'Battle!';
+  gameResult.textContent = 'FIGHT!';
   start.style.display = 'none';
   reset.style.display = 'block';
 });
 
 reset.addEventListener('click', () => {
-  player = new Gameboard();
-  enemy = new Gameboard();
+  player = new Player('Player');
+  enemy = new Player('Computer');
   deleteBoard('left');
   deleteBoard('right');
   player.board.loadDefault();
@@ -59,12 +58,14 @@ function loadHitbox() {
   enemyBoard.addEventListener('click', (event) => {
     const square = event.target;
     if (square.classList.contains('enemy-square')) {
-      console.log('player attack');
       const x = square.getAttribute('x');
       const y = square.getAttribute('y');
       const { result, sunk } = enemy.board.receiveAttack(x, y);
       updateSquare(enemy, x, y, true);
-      if (sunk) updateShipCount(enemy, true);
+      if (sunk) {
+        updateShipCount(enemy, true);
+        showSunk(true);
+      }
       if (enemy.board.life === 0) {
         disableBoard();
         announceWinner(player);
@@ -87,7 +88,6 @@ function loadHitbox() {
   });
 }
 
-// use to switch turns
 function disableBoard() {
   const enemyBoard = document.querySelector('.enemy-board');
   enemyBoard.classList.add('disable');
@@ -99,7 +99,6 @@ function enableBoard() {
 }
 
 async function cpuPlay() {
-  // generate random x and y
   let attackDone = false;
   let hitTarget = false;
   let x = Math.floor(Math.random() * 9);
@@ -109,26 +108,29 @@ async function cpuPlay() {
   // use this flag to improve cpu play
   let hitFlag = false;
   while (!attackDone) {
-    console.log(`cpu attack: ${x}, ${y}`);
+    console.log(`cpu attack ${x} ${y}`);
     if (board[y][x] != 'miss' && board[y][x] != 'hit') {
       if (board[y][x] instanceof Ship) {
-        player.board.receiveAttack(x, y);
+        const { result, sunk } = player.board.receiveAttack(x, y);
         await delay(500);
         updateSquare(player, x, y, false);
+        if (sunk) showSunk();
         hitFlag = true;
       } else {
         player.board.receiveAttack(x, y);
         await delay(500);
         updateSquare(player, x, y, false);
-        return true;
+        attackDone = true;
+        return;
       }
     }
     if (hitFlag) {
       // try adjacent square if hit
-      const top = board[y - 1][x];
-      const bottom = board[y + 1][x];
-      const right = board[y][x + 1];
-      const left = board[y][x - 1];
+      let top, bottom, right, left;
+      if (y > 0) top = board[y - 1][x];
+      if (y < 9) bottom = board[y + 1][x];
+      if (x < 9) right = board[y][x + 1];
+      if (x > 0) left = board[y][x - 1];
       if (top != 'hit' && top != 'miss' && y > 0) {
         y--;
       } else if (bottom != 'hit' && bottom != 'miss' && y < 9) {
@@ -143,7 +145,6 @@ async function cpuPlay() {
       y = Math.floor(Math.random() * 9);
     }
     hitFlag = false;
-
   }
 
   return new Promise.resolve();
@@ -151,4 +152,13 @@ async function cpuPlay() {
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function showSunk(enemy = false) {
+  let sunk = document.querySelector('.player-sunk');
+  if (enemy) sunk = document.querySelector('.enemy-sunk');
+  sunk.style.display = 'block';
+  setTimeout(() => {
+    sunk.style.display = 'none';
+  }, 500);
 }
