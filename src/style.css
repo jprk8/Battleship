@@ -13,7 +13,7 @@ body {
   -webkit-font-smoothing: antialiased;
   background-color: grey;
   font-family: monospace;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 img, picture, video, canvas, svg {
@@ -45,33 +45,58 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
   font-size: 46px;
   text-align: center;
-  margin-bottom: 10px;
+}
+
+button.start,
+button.reset {
+  margin-top: 10px;
+}
+
+.status {
+  text-align: center;
+  height: 24px;
 }
 
 .menu {
-  text-align: center;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .game-result {
   text-align: center;
-  font-size: 24px;
-  height: 30px;
+  font-size: 20px;
+  width: max-content;
+  background-color: black;
+  color: yellow;
+  padding: 4px 8px;
+  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  top: 180px;
+  transform: translate(-50%, -50%);
 }
 
 .game-container {
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   gap: 200px;
+}
+
+.player-side,
+.enemy-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
 }
 
 .player-heading,
 .enemy-heading,
 .player-ship-count,
 .enemy-ship-count {
-  text-align: center;
   font-size: 20px;
-  margin-bottom: 10px;
 }
 
 .player-ship-count,
@@ -81,7 +106,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .player-board,
 .enemy-board {
-  margin-top: 20px;
   display: grid;
   background-color: black;
   grid-template-columns: repeat(10, 1fr);
@@ -126,4 +150,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .disable {
   pointer-events: none;
+}
+
+.randomize {
+  margin-top: 20px;
 }
