@@ -79,10 +79,11 @@ function loadHitbox() {
           .then(() => {
             if (player.board.life === 0) {
               announceWinner(enemy);
-              return;
+              // Skip re-enabling the board if the game is over
+            } else {
+              enableBoard();
             }
-          })
-          .then(() => enableBoard());
+          });
       }
     }
   });
